@@ -4,7 +4,7 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'vagrant-nixos/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = "vagrant-nixos"
+  spec.name          = "vagrant-nixos-plugin"
   spec.version       = VagrantPlugins::Nixos::VERSION
   spec.authors       = ["Chris Farmiloe"]
   spec.email         = ["chrisfarms@gmail.com"]

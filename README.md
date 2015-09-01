@@ -8,8 +8,11 @@ This plugin makes working with [NixOS](http://nixos.org) guests in [Vagrant](htt
 
 ## Install:
 
+NOTE: this project is a fork of the `vagrant-nixos` gem. Both can't be
+      installed at the same time.
+
 ```bash
-$ vagrant plugin install vagrant-nixos
+$ vagrant plugin install vagrant-nixos-plugin
 ```
 
 ## Example Vagrantfile
@@ -98,7 +101,7 @@ In nixos we don't mess around with the files in `/etc` instead we write expressi
 
 This plugin sets some ground rules for nixos boxes to keep this configuration clean and provisioning possible.
 
-Box creators should ensure that their `configuration.nix` file imports an nix module `/etc/nixos/vagrant.nix` which will be overwritten by `vagrant-nixos` during `vagrant up` or `vagrant provision`.
+Box creators should ensure that their `configuration.nix` file imports an nix module `/etc/nixos/vagrant.nix` which will be overwritten by `vagrant-nixos-plugin` during `vagrant up` or `vagrant provision`.
 
 See the configuration in our [NixOS packer template](http://github.com/oxdi/nixos) for an example.
 
