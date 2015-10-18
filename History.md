@@ -1,3 +1,11 @@
+
+0.1.1 / 2015-10-18
+==================
+
+Previous release was a bit hasty
+
+  * Misc cleanup and fixes
+
 0.1.0 / 2015-10-18
 ==================
 
