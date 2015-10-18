@@ -20,23 +20,23 @@ $ vagrant plugin install vagrant-nixos-plugin
 ```ruby
 Vagrant.configure("2") do |config|
 
-	# use a suitable NixOS base
-	# http://github.com/oxdi/nixos
-	config.vm.box = "nixos-14.02-x86_64"
-	config.vm.box_url = "http://s3.amazonaws.com/oxdi/nixos-14.02-x86_64-virtualbox.box"
-  	
-  	# set hostname
-  	config.vm.hostname = "nixy"
-  
-  	# Setup networking
-	config.vm.network "private_network", :ip => "172.16.16.16"
+  # use a suitable NixOS base
+  # http://github.com/oxdi/nixos
+  config.vm.box = "nixos-14.02-x86_64"
+  config.vm.box_url = "http://s3.amazonaws.com/oxdi/nixos-14.02-x86_64-virtualbox.box"
 
-	# Add the htop package
-	config.vm.provision :nixos, :expression => {
-		environment: {
-			systemPackages: [ :htop ]
-		}
-	}
+  # set hostname
+  config.vm.hostname = "nixy"
+
+  # Setup networking
+  config.vm.network "private_network", :ip => "172.16.16.16"
+
+  # Add the htop package
+  config.vm.provision :nixos, :expression => {
+    environment: {
+      systemPackages: [ :htop ]
+    }
+  }
 
 end
 ```
@@ -45,9 +45,9 @@ In the above `Vagrantfile` example we provision the box using the `:expression` 
 
 ```ruby
 config.vm.provision :nixos, :inline => %{
-	{config, pkgs, ...}: with pkgs; {
-		environment.systemPackages = [ htop ];
-	}
+  {config, pkgs, ...}: with pkgs; {
+    environment.systemPackages = [ htop ];
+  }
 }, :NIX_PATH => "/custom/path/to/nixpkgs"
 ```
 
@@ -63,35 +63,35 @@ If you need provisioning to be included explicitly during rebuild use:
 
 ```ruby
 config.vm.provision :nixos,
-	:path => “configuration.nix”,
-	:include => true
+  :path => “configuration.nix”,
+  :include => true
 ```
 
 You can enable verbose provision output during rebuild process with:
 
 ```ruby
 config.vm.provision :nixos,
-	:path => “configuration.nix”,
-	:verbose => true
+  :path => “configuration.nix”,
+  :verbose => true
 ```
 
 If you need to use functions or access values using dot syntax you can use the `Nix` module:
 
 ```ruby
 config.vm.provision :nixos, :expression => {
-	services: {
-		postgresql: {
-			enable: true,
-			package: Nix.pkgs.postgresql93,
-			enableTCPIP: true,
-			authentication: Nix.lib.mkForce(%{
-				local all all              trust
-				host  all all 127.0.0.1/32 trust
-			}),
-			initialScript: "/etc/nixos/postgres.sql"
-		}
-	}
-}	
+  services: {
+    postgresql: {
+      enable: true,
+      package: Nix.pkgs.postgresql93,
+      enableTCPIP: true,
+      authentication: Nix.lib.mkForce(%{
+        local all all              trust
+        host  all all 127.0.0.1/32 trust
+      }),
+      initialScript: "/etc/nixos/postgres.sql"
+    }
+  }
+} 
 ```
 
 
