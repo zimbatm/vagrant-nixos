@@ -27,7 +27,7 @@ module VagrantPlugins
       protected
 
       # just do nixos-rebuild
-      def rebuild!(machine, config)
+      def rebuild!
         prepare!
 
         # rebuild
@@ -60,7 +60,7 @@ module VagrantPlugins
 { config, pkgs, ... }:
 {
   imports = [
-    #{config.imports.join("\n\t\t")}
+    #{config.imports.join("\n  ")}
   ];
 CONF
         # default NIX_PATH
