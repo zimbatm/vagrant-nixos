@@ -1,4 +1,4 @@
-Copyright (c) 2014 Chris Farmiloe
+Copyright (c) 2014 Chris Farmiloe, 2015 zimbatm
 
 MIT License
 
