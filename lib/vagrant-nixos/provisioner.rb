@@ -1,7 +1,6 @@
 module VagrantPlugins
   module Nixos
-    class NixosConfigError < Vagrant::Errors::VagrantError
-    end
+    NixosConfigError = Class.new(Vagrant::Errors::VagrantError)
 
     class Provisioner < Vagrant.plugin("2", :provisioner)
       # This is the method called when the actual provisioning should be
