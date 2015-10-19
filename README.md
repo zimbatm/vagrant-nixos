@@ -35,11 +35,13 @@ Vagrant.configure("2") do |config|
   config.vm.network "private_network", ip: "172.16.16.16"
 
   # Add the htop package
-  config.vm.provision :nixos, expression: {
-    environment: {
-      systemPackages: [ :htop ]
+  config.vm.provision :nixos,
+    run: 'always',
+    expression: {
+      environment: {
+        systemPackages: [ :htop ]
+      }
     }
-  }
 
 end
 ```
@@ -52,12 +54,13 @@ method.
 
 ```ruby
 config.vm.provision :nixos,
+  run: 'always',
   inline: %{
 {config, pkgs, ...}: with pkgs; {
   environment.systemPackages = [ htop ];
 }
   },
-  NIX_PATH: "/custom/path/to/nixpkgs"
+  NIX_PATH: '/vagrant/nixpkgs'
 ```
 
 The above example also shows the optional setting of a custom `NIX_PATH` path.
@@ -65,13 +68,14 @@ The above example also shows the optional setting of a custom `NIX_PATH` path.
 You can also use an external nix configuration file:
 
 ```ruby
-config.vm.provision :nixos, path: "configuration.nix"
+config.vm.provision :nixos, run: 'always', path: "configuration.nix"
 ```
 
 If you need provisioning to be included explicitly during rebuild use:
 
 ```ruby
 config.vm.provision :nixos,
+  run: 'always',
   path: “configuration.nix”,
   include: true
 ```
@@ -80,6 +84,7 @@ You can enable verbose provision output during rebuild process with:
 
 ```ruby
 config.vm.provision :nixos,
+  run: 'always',
   path: “configuration.nix”,
   verbose: true
 ```
@@ -116,7 +121,13 @@ clean and provisioning possible.
 
 Box creators should ensure that their `configuration.nix` file imports an nix
 module `/etc/nixos/vagrant.nix` which will be overwritten by
-`vagrant-nixos-plugin` during `vagrant up` or `vagrant provision`.
+`vagrant-nixos-plugin` during `vagrant up` or `vagrant provision` and by
+vagrant for the /etc/nixos/vagrant-hostname.nix and
+/etc/nixos/vagrant-network.nix files.
+
+When declaring the provisioner it is recommended to add the `run: 'always'`
+attribute to make sure that changes to the Vagrantfile are reflected during
+reload.
 
 See the configuration in our
 [NixOS packer template](http://github.com/zimbatm/nixbox) for an example.
