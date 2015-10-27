@@ -1,4 +1,15 @@
 
+0.2.0 / 2015-10-27
+==================
+
+This release changes how import works.
+
+They are no-longer a configuration option but are automatically detected from
+the content of /etc/nixos/vagrant-*.nix
+
+On top of that /etc/nixos/vagrant-{network,hostname}.nix are automatically
+removed if not defined in the Vagrantfile.
+
 0.1.1 / 2015-10-18
 ==================
 
