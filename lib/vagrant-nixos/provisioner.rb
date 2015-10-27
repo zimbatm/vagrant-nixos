@@ -55,12 +55,24 @@ module VagrantPlugins
 
       # rebuild the base vagrant.nix configuration
       def prepare!
+        cleanup_hostname!
+        cleanup_network!
+
+        imports = ''
+
+        # Find all /etc/nixos/vagrant-*.nix files
+        machine.communicate.tap do |c|
+          c.execute('find /etc/nixos -maxdepth 1 -type f -name "vagrant-*.nix"') do |type, data|
+            imports << data
+          end
+        end
+
         # build
         conf = <<CONF
 { config, pkgs, ... }:
 {
   imports = [
-    #{config.imports.join("\n  ")}
+    #{imports.lines.join("    ").strip}
   ];
 CONF
         # default NIX_PATH
@@ -95,6 +107,22 @@ CONF
           end
         end
         return changed
+      end
+
+      # Cleanup the hostname file if it hasn't been configured in the
+      # Vagrantfile.
+      def cleanup_hostname!
+        return unless machine.config.vm.hostname.nil?
+        machine.communicate.sudo("rm -f /etc/nixos/vagrant-hostname.nix")
+      end
+
+      # Cleanup the network file if it hasn't been set in the Vagrantfile
+      def cleanup_network!
+        # Abort if a private network has been defined
+        machine.config.vm.networks.each do |cfg|
+          return if cfg[0] == :private_network
+        end
+        machine.communicate.sudo("rm -f /etc/nixos/vagrant-network.nix")
       end
 
       def same?(f1, f2)

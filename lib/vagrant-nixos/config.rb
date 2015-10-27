@@ -25,10 +25,6 @@ module VagrantPlugins
       # @return [String, nil]
       attr_accessor :NIX_PATH
 
-      # Configure which files to import in the vagrant.nix file
-      # @return [Array<String>]
-      attr_accessor :imports
-
       def initialize
         @inline      = UNSET_VALUE
         @path        = UNSET_VALUE
@@ -36,11 +32,6 @@ module VagrantPlugins
         @include     = UNSET_VALUE
         @verbose     = UNSET_VALUE
         @NIX_PATH    = UNSET_VALUE
-        @imports     = [
-          "./vagrant-network.nix",
-          "./vagrant-hostname.nix",
-          "./vagrant-provision.nix",
-        ]
       end
 
       def finalize!
@@ -65,10 +56,6 @@ module VagrantPlugins
 
         if path && !File.exist?(path)
           errors << "Invalid path #{path}"
-        end
-
-        unless imports.is_a?(Array)
-          errors << "Expected imports to be an array of paths"
         end
 
         { "nixos provisioner" => errors }
