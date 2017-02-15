@@ -32,6 +32,7 @@ module VagrantPlugins
 
         # rebuild
         rebuild_cmd = "nixos-rebuild switch"
+        rebuild_cmd = "#{rebuild_cmd} --show-trace" if config.trace
         rebuild_cmd = "#{rebuild_cmd} -I nixos-config=/etc/nixos/vagrant.nix" if config.include
         rebuild_cmd = "NIX_PATH=#{config.NIX_PATH}:$NIX_PATH #{rebuild_cmd}" if config.NIX_PATH
 
