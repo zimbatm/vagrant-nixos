@@ -1,4 +1,9 @@
 
+0.2.1 / 2017-02-16
+==================
+
+  * Add trace option to pass --show-trace (thanks @rimmington, #11)
+
 0.2.0 / 2015-10-27
 ==================
 
