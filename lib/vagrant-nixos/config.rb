@@ -21,6 +21,10 @@ module VagrantPlugins
       # @return [true, false]
       attr_accessor :verbose
 
+      # Pass --show-trace to nixos-rebuild
+      # @return [true, false]
+      attr_accessor :trace
+
       # Override the default NIX_PATH
       # @return [String, nil]
       attr_accessor :NIX_PATH
@@ -31,6 +35,7 @@ module VagrantPlugins
         @expression  = UNSET_VALUE
         @include     = UNSET_VALUE
         @verbose     = UNSET_VALUE
+        @trace       = UNSET_VALUE
         @NIX_PATH    = UNSET_VALUE
       end
 
@@ -40,6 +45,7 @@ module VagrantPlugins
         @expression  = nil    if @expression  == UNSET_VALUE
         @include     = false  if @include     == UNSET_VALUE
         @verbose     = false  if @verbose     == UNSET_VALUE
+        @trace       = false  if @trace       == UNSET_VALUE
         @NIX_PATH    = nil    if @NIX_PATH    == UNSET_VALUE
       end
 
