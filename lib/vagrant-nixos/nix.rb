@@ -75,7 +75,7 @@ class String
   end
 end
 
-class Fixnum
+class Integer
   def to_nix(indent = 0)
     to_s
   end
